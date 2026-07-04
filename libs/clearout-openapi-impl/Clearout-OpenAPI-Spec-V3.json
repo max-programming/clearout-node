@@ -1,0 +1,4166 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Clearout OpenAPI",
+    "version": "1.1",
+    "contact": {
+      "name": "Clearout",
+      "url": "https://clearout.io/",
+      "email": "us@clearout.io"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.clearout.io/v2"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "GetCreditsSuccessResponseType": {
+        "type": "object",
+        "properties": {
+          "available_credits": {
+            "type": "integer",
+            "example": 114563
+          },
+          "credits": {
+            "type": "object",
+            "properties": {
+              "available": {
+                "type": "integer",
+                "example": 114563
+              },
+              "subs": {
+                "type": "string",
+                "example": null
+              },
+              "available_daily_verify_limit": {
+                "type": "string",
+                "example": null
+              },
+              "reset_daily_verify_limit_date": {
+                "type": "string",
+                "example": "2019-03-04T18:30:00.000Z"
+              },
+              "total": {
+                "type": "integer",
+                "example": 114563
+              }
+            }
+          },
+          "low_credit_balance_min_threshold": {
+            "type": "integer",
+            "example": 50
+          }
+        }
+      },
+      "GetCreditsUnauthorizedResponseType": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "example": 1000
+          },
+          "message": {
+            "type": "string",
+            "example": "Invalid API Token, please generate new token"
+          }
+        }
+      },
+      "VerifyEmail": {
+        "type": "object",
+        "required": [
+          "email"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "YourEmail"
+          },
+          "timeout": {
+            "type": "integer",
+            "example": 90000
+          }
+        }
+      },
+      "InstantVerifySuccessResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Response Object status",
+            "example": "success"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "email_address": {
+                "type": "string",
+                "example": "us@clearout.io"
+              },
+              "safe_to_send": {
+                "type": "string",
+                "example": "yes"
+              },
+              "status": {
+                "type": "string",
+                "example": "valid"
+              },
+              "verified_on": {
+                "type": "string",
+                "example": "2019-05-02T12:42:53.000Z"
+              },
+              "time_taken": {
+                "type": "integer",
+                "example": 432
+              },
+              "sub_status": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "integer",
+                    "example": 200
+                  },
+                  "desc": {
+                    "type": "string",
+                    "example": "Success"
+                  }
+                }
+              },
+              "detail_info": {
+                "type": "object",
+                "properties": {
+                  "account": {
+                    "type": "string",
+                    "example": "us"
+                  },
+                  "domain": {
+                    "type": "string",
+                    "example": "clearout.io"
+                  }
+                }
+              },
+              "blacklist_info": {
+                "type": "string",
+                "example": []
+              },
+              "disposable": {
+                "type": "string",
+                "example": "no"
+              },
+              "free": {
+                "type": "string",
+                "example": "no"
+              },
+              "role": {
+                "type": "string",
+                "example": "yes"
+              },
+              "gibberish": {
+                "type": "string",
+                "example": "no"
+              },
+              "suggested_email_address": {
+                "type": "string"
+              },
+              "profile": {
+                "type": "string",
+                "example": null
+              },
+              "score": {
+                "type": "integer",
+                "example": 1
+              },
+              "bounce_type": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "InstantVerifyFailureResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1017
+              },
+              "message": {
+                "type": "string",
+                "example": "You have reached daily verify limit, please try next day or contact us@clearout.io"
+              }
+            }
+          }
+        }
+      },
+      "InstantVerifyBadRequestResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string",
+                "example": "validation failed"
+              },
+              "reasons": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "field": {
+                      "type": "array",
+                      "items": {
+                        "example": "email"
+                      }
+                    },
+                    "location": {
+                      "type": "string",
+                      "example": "body"
+                    },
+                    "messages": {
+                      "type": "array",
+                      "items": {
+                        "example": "\\\"email\\\" is required"
+                      }
+                    },
+                    "types": {
+                      "type": "array",
+                      "items": {
+                        "example": "any.required"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "InstantVerifyPaymentRequiredResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1002
+              },
+              "message": {
+                "type": "string",
+                "example": "You have exhausted your credits, please add additional credits to continue"
+              }
+            }
+          }
+        }
+      },
+      "InstantVerifyUnauthorizedResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1000
+              },
+              "message": {
+                "type": "string",
+                "example": "Invalid API Token, please generate new token"
+              }
+            }
+          }
+        }
+      },
+      "InstantVerifyRateLimitReachedResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string",
+                "example": "You have reached API rate limit, try calling after Fri Jul 10 2020 10:59:19 GMT+0530 (IST) or to increase limit upgrade plan or reach us@clearout.io"
+              }
+            }
+          }
+        }
+      },
+      "InstantVerifyTimeoutOccuredResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string",
+                "example": "Timeout Occurred"
+              },
+              "additional_info": {
+                "type": "object",
+                "properties": {
+                  "resource_name": {
+                    "type": "string",
+                    "example": "email"
+                  },
+                  "resource_value": {
+                    "type": "string",
+                    "example": "us@clearout.io"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "BulkVerifySuccessResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "success"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "list_id": {
+                "type": "string",
+                "example": "5c60eb454506101c9d2f7b17"
+              }
+            }
+          }
+        }
+      },
+      "BulkVerifyFailureResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1001
+              },
+              "message": {
+                "type": "string",
+                "example": "You have reached the maximum number of bulk verify requests, please try after the existing request completes or contact us@clearout.io"
+              }
+            }
+          }
+        }
+      },
+      "BulkVerifyBadRequestResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string",
+                "example": "validation failed"
+              },
+              "reasons": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "field": {
+                      "type": "array",
+                      "items": {
+                        "example": "file"
+                      }
+                    },
+                    "messages": {
+                      "type": "array",
+                      "items": {
+                        "example": "Invalid file format, support file formats - ['csv', 'xlsx']"
+                      }
+                    },
+                    "types": {
+                      "type": "array",
+                      "items": {
+                        "example": "any.required"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "BulkVerifyDailyLimitReachedResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1017
+              },
+              "message": {
+                "type": "string",
+                "example": "You have reached daily verify limit, please try next day or contact us@clearout.io"
+              }
+            }
+          }
+        }
+      },
+      "BulkVerifyPaymentRequiredResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1002
+              },
+              "message": {
+                "type": "string",
+                "example": "You have exhausted your credits, please add additional credits to continue"
+              }
+            }
+          }
+        }
+      },
+      "BulkVerifyUnauthorizedResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1000
+              },
+              "message": {
+                "type": "string",
+                "example": "Invalid API Token, please generate new token"
+              }
+            }
+          }
+        }
+      },
+      "BulkVerifyProgressStatusSuccessResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "success"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "progress_status": {
+                "type": "string",
+                "example": "completed"
+              },
+              "percentile": {
+                "type": "integer",
+                "example": 100
+              }
+            }
+          }
+        }
+      },
+      "BulkVerifyProgressStatusFailureResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1008
+              },
+              "message": {
+                "type": "string",
+                "example": "You are not authorized to access this resource"
+              }
+            }
+          }
+        }
+      },
+      "BulkVerifyProgressStatusBadRequestResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string",
+                "example": "validation failed"
+              },
+              "reasons": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "field": {
+                      "type": "array",
+                      "items": {
+                        "example": "list_id"
+                      }
+                    },
+                    "location": {
+                      "type": "string",
+                      "example": "query"
+                    },
+                    "messages": {
+                      "type": "array",
+                      "items": {
+                        "example": "\\\"list_id\\\" is not allowed to be empty"
+                      }
+                    },
+                    "types": {
+                      "type": "array",
+                      "items": {
+                        "example": "any.empty"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "BulkVerifyProgressStatusUnauthorizedResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1000
+              },
+              "message": {
+                "type": "string",
+                "example": "Invalid API Token, please generate new token"
+              }
+            }
+          }
+        }
+      },
+      "BulkVerifyProgressStatusDailyLimitReachedResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1017
+              },
+              "message": {
+                "type": "string",
+                "example": "You have reached daily verify limit, please try next day or contact us@clearout.io"
+              }
+            }
+          }
+        }
+      },
+      "ListIdType": {
+        "type": "object",
+        "required": [
+          "list_id"
+        ],
+        "properties": {
+          "list_id": {
+            "type": "string",
+            "example": "Enter your list id here"
+          }
+        }
+      },
+      "RemoveParamType": {
+        "type": "object",
+        "required": [
+          "list_id"
+        ],
+        "properties": {
+          "list_id": {
+            "type": "string",
+            "example": "Enter your list id here"
+          },
+          "ignore_result": {
+            "type": "boolean",
+            "example": true
+          }
+        }
+      },
+      "BulkVerifyResultDownloadSuccessResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "success"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string",
+                "example": "https://clearout.s3.ap-south-1.amazonaws.com/5c6810bb82e2fc4ab21ce233/5c681d56cc56176d10d78f31/results/test3_clearout_results.csv?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJXBOVX5Q2EULDUIA%2F20190218%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20190218T050528Z&X-Amz-Expires=300&X-Amz-Sig"
+              }
+            }
+          }
+        }
+      },
+      "BulkVerifyResultDownloadFailureResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1029
+              },
+              "message": {
+                "type": "string",
+                "example": "List is not available"
+              }
+            }
+          }
+        }
+      },
+      "BulkVerifyResultDownloadBadRequestResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string",
+                "example": "validation failed"
+              },
+              "reasons": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "field": {
+                      "type": "array",
+                      "items": {
+                        "example": "list_id"
+                      }
+                    },
+                    "location": {
+                      "type": "string",
+                      "example": "body"
+                    },
+                    "messages": {
+                      "type": "array",
+                      "items": {
+                        "example": "\\\"list_id\\\" is required"
+                      }
+                    },
+                    "types": {
+                      "type": "array",
+                      "items": {
+                        "example": "any.required"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "BulkVerifyResultDownloadResultFileExpiredResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1007
+              },
+              "message": {
+                "type": "string",
+                "example": "Result file got expired, contact us@clearout.io"
+              }
+            }
+          }
+        }
+      },
+      "BulkVerifyResultDownloadPaymentRequiredResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1002
+              },
+              "message": {
+                "type": "string",
+                "example": "You have exhausted your credits, please add additional credits to continue"
+              }
+            }
+          }
+        }
+      },
+      "BulkVerifyResultDownloadUnauthorizedResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1000
+              },
+              "message": {
+                "type": "string",
+                "example": "Invalid API Token, please generate new token"
+              }
+            }
+          }
+        }
+      },
+      "BulkSuccessResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "success"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "example": "email_verify.xlsx"
+              },
+              "source": {
+                "type": "string",
+                "example": "upload"
+              },
+              "created_on": {
+                "type": "string",
+                "example": "2022-05-16T10:41:30.427Z"
+              }
+            }
+          }
+        }
+      },
+      "BulkFailureListNotAvailableResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1029
+              },
+              "message": {
+                "type": "string",
+                "example": "List is not available"
+              }
+            }
+          }
+        }
+      },
+      "BulkFailureListNotRunningResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1116
+              },
+              "message": {
+                "type": "string",
+                "example": "List is not in the cancellable stage"
+              }
+            }
+          }
+        }
+      },
+      "BulkBadRequestResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string",
+                "example": "validation failed"
+              },
+              "reasons": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "field": {
+                      "type": "array",
+                      "items": {
+                        "example": "list_id"
+                      }
+                    },
+                    "location": {
+                      "type": "string",
+                      "example": "body"
+                    },
+                    "messages": {
+                      "type": "array",
+                      "items": {
+                        "example": "\\\"list_id\\\" is required"
+                      }
+                    },
+                    "types": {
+                      "type": "array",
+                      "items": {
+                        "example": "any.required"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "BulkVerifyRemovalPaymentRequiredResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1002
+              },
+              "message": {
+                "type": "string",
+                "example": "You have exhausted your credits, please add additional credits to continue"
+              }
+            }
+          }
+        }
+      },
+      "BulkVerifyRemovalUnauthorizedResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1000
+              },
+              "message": {
+                "type": "string",
+                "example": "Invalid API Token, please generate new token"
+              }
+            }
+          }
+        }
+      },
+      "CatchAllVerifySuccessResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "success"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "email_address": {
+                "type": "string",
+                "example": "mike.k@shopify.com"
+              },
+              "catchall": {
+                "type": "string",
+                "example": "yes"
+              },
+              "verified_on": {
+                "type": "string",
+                "example": "2019-08-24T14:50:51.000Z"
+              },
+              "time_taken": {
+                "type": "integer",
+                "example": 38
+              }
+            }
+          }
+        }
+      },
+      "CatchAllVerifyFailureResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1017
+              },
+              "message": {
+                "type": "string",
+                "example": "You have reached daily verify limit, please try next day or contact us@clearout.io"
+              }
+            }
+          }
+        }
+      },
+      "CatchAllVerifyBadRequestResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string",
+                "example": "validation failed"
+              },
+              "reasons": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "field": {
+                      "type": "array",
+                      "items": {
+                        "example": "email"
+                      }
+                    },
+                    "location": {
+                      "type": "string",
+                      "example": "body"
+                    },
+                    "messages": {
+                      "type": "array",
+                      "items": {
+                        "example": "\\\"email\\\" is required"
+                      }
+                    },
+                    "types": {
+                      "type": "array",
+                      "items": {
+                        "example": "any.required"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "CatchAllVerifyPaymentRequiredResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1002
+              },
+              "message": {
+                "type": "string",
+                "example": "You have exhausted your credits, please add additional credits to continue"
+              }
+            }
+          }
+        }
+      },
+      "CatchAllVerifyUnauthorizedResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1000
+              },
+              "message": {
+                "type": "string",
+                "example": "Invalid API Token, please generate new token"
+              }
+            }
+          }
+        }
+      },
+      "CatchAllVerifyTimeoutOccurredResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string",
+                "example": "Timeout Occurred"
+              },
+              "additional_info": {
+                "type": "object",
+                "properties": {
+                  "resource_name": {
+                    "type": "string",
+                    "example": "email"
+                  },
+                  "resource_value": {
+                    "type": "string",
+                    "example": "mike.k@shopify.com"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "DisposableVerifySuccessResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "success"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "email_address": {
+                "type": "string",
+                "example": "john@temp-mail.org"
+              },
+              "catchall": {
+                "type": "string",
+                "example": "yes"
+              },
+              "verified_on": {
+                "type": "string",
+                "example": "2019-08-24T14:50:51.000Z"
+              },
+              "time_taken": {
+                "type": "integer",
+                "example": 38
+              }
+            }
+          }
+        }
+      },
+      "DisposableVerifyFailureResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1017
+              },
+              "message": {
+                "type": "string",
+                "example": "You have reached daily verify limit, please try next day or contact us@clearout.io"
+              }
+            }
+          }
+        }
+      },
+      "DisposableVerifyBadRequestResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string",
+                "example": "validation failed"
+              },
+              "reasons": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "field": {
+                      "type": "array",
+                      "items": {
+                        "example": "email"
+                      }
+                    },
+                    "location": {
+                      "type": "string",
+                      "example": "body"
+                    },
+                    "messages": {
+                      "type": "array",
+                      "items": {
+                        "example": "\\\"email\\\" is required"
+                      }
+                    },
+                    "types": {
+                      "type": "array",
+                      "items": {
+                        "example": "any.required"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "DisposableVerifyPaymentRequiredResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1002
+              },
+              "message": {
+                "type": "string",
+                "example": "You have exhausted your credits, please add additional credits to continue"
+              }
+            }
+          }
+        }
+      },
+      "DisposableVerifyUnauthorizedResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1000
+              },
+              "message": {
+                "type": "string",
+                "example": "Invalid API Token, please generate new token"
+              }
+            }
+          }
+        }
+      },
+      "BusinessAccountVerifySuccessResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "success"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "email_address": {
+                "type": "string",
+                "example": "us@clearout.io"
+              },
+              "business_account": {
+                "type": "string",
+                "example": "yes"
+              },
+              "verified_on": {
+                "type": "string",
+                "example": "2019-08-24T14:50:51.000Z"
+              },
+              "time_taken": {
+                "type": "integer",
+                "example": 38
+              }
+            }
+          }
+        }
+      },
+      "BusinessAccountVerifyFailureResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1017
+              },
+              "message": {
+                "type": "string",
+                "example": "You have reached daily verify limit, please try next day or contact us@clearout.io"
+              }
+            }
+          }
+        }
+      },
+      "BusinessAccountVerifyBadRequestResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string",
+                "example": "validation failed"
+              },
+              "reasons": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "field": {
+                      "type": "array",
+                      "items": {
+                        "example": "email"
+                      }
+                    },
+                    "location": {
+                      "type": "string",
+                      "example": "body"
+                    },
+                    "messages": {
+                      "type": "array",
+                      "items": {
+                        "example": "\\\"email\\\" is required"
+                      }
+                    },
+                    "types": {
+                      "type": "array",
+                      "items": {
+                        "example": "any.required"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "BusinessAccountVerifyPaymentRequiredResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1002
+              },
+              "message": {
+                "type": "string",
+                "example": "You have exhausted your credits, please add additional credits to continue"
+              }
+            }
+          }
+        }
+      },
+      "BusinessAccountVerifyUnauthorizedResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1000
+              },
+              "message": {
+                "type": "string",
+                "example": "Invalid API Token, please generate new token"
+              }
+            }
+          }
+        }
+      },
+      "FreeAccountVerifySuccessResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "success"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "email_address": {
+                "type": "string",
+                "example": "john@gmail.com"
+              },
+              "business_account": {
+                "type": "string",
+                "example": "yes"
+              },
+              "verified_on": {
+                "type": "string",
+                "example": "2019-08-24T14:50:51.000Z"
+              },
+              "time_taken": {
+                "type": "integer",
+                "example": 38
+              }
+            }
+          }
+        }
+      },
+      "FreeAccountVerifyFailureResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1017
+              },
+              "message": {
+                "type": "string",
+                "example": "You have reached daily verify limit, please try next day or contact us@clearout.io"
+              }
+            }
+          }
+        }
+      },
+      "FreeAccountVerifyBadRequestResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string",
+                "example": "validation failed"
+              },
+              "reasons": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "field": {
+                      "type": "array",
+                      "items": {
+                        "example": "email"
+                      }
+                    },
+                    "location": {
+                      "type": "string",
+                      "example": "body"
+                    },
+                    "messages": {
+                      "type": "array",
+                      "items": {
+                        "example": "\\\"email\\\" is required"
+                      }
+                    },
+                    "types": {
+                      "type": "array",
+                      "items": {
+                        "example": "any.required"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "FreeAccountVerifyPaymentRequiredResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1002
+              },
+              "message": {
+                "type": "string",
+                "example": "You have exhausted your credits, please add additional credits to continue"
+              }
+            }
+          }
+        }
+      },
+      "FreeAccountVerifyUnauthorizedResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1000
+              },
+              "message": {
+                "type": "string",
+                "example": "Invalid API Token, please generate new token"
+              }
+            }
+          }
+        }
+      },
+      "RoleAccountVerifySuccessResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "success"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "email_address": {
+                "type": "string",
+                "example": "info@gmail.com"
+              },
+              "business_account": {
+                "type": "string",
+                "example": "yes"
+              },
+              "verified_on": {
+                "type": "string",
+                "example": "2019-08-24T14:50:51.000Z"
+              },
+              "time_taken": {
+                "type": "integer",
+                "example": 38
+              }
+            }
+          }
+        }
+      },
+      "RoleAccountVerifyFailureResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1017
+              },
+              "message": {
+                "type": "string",
+                "example": "You have reached daily verify limit, please try next day or contact us@clearout.io"
+              }
+            }
+          }
+        }
+      },
+      "RoleAccountVerifyBadRequestResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string",
+                "example": "validation failed"
+              },
+              "reasons": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "field": {
+                      "type": "array",
+                      "items": {
+                        "example": "email"
+                      }
+                    },
+                    "location": {
+                      "type": "string",
+                      "example": "body"
+                    },
+                    "messages": {
+                      "type": "array",
+                      "items": {
+                        "example": "\\\"email\\\" is required"
+                      }
+                    },
+                    "types": {
+                      "type": "array",
+                      "items": {
+                        "example": "any.required"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "RoleAccountVerifyPaymentRequiredResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1002
+              },
+              "message": {
+                "type": "string",
+                "example": "You have exhausted your credits, please add additional credits to continue"
+              }
+            }
+          }
+        }
+      },
+      "RoleAccountVerifyUnauthorizedResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1000
+              },
+              "message": {
+                "type": "string",
+                "example": "Invalid API Token, please generate new token"
+              }
+            }
+          }
+        }
+      },
+      "GibberishAccountVerifySuccessResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "success"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "email_address": {
+                "type": "string",
+                "example": "abcd12345@gmail.com"
+              },
+              "business_account": {
+                "type": "string",
+                "example": "yes"
+              },
+              "verified_on": {
+                "type": "string",
+                "example": "2019-08-24T14:50:51.000Z"
+              },
+              "time_taken": {
+                "type": "integer",
+                "example": 38
+              }
+            }
+          }
+        }
+      },
+      "GibberishAccountVerifyFailureResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1017
+              },
+              "message": {
+                "type": "string",
+                "example": "You have reached daily verify limit, please try next day or contact us@clearout.io"
+              }
+            }
+          }
+        }
+      },
+      "GibberishAccountVerifyBadRequestResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string",
+                "example": "validation failed"
+              },
+              "reasons": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "field": {
+                      "type": "array",
+                      "items": {
+                        "example": "email"
+                      }
+                    },
+                    "location": {
+                      "type": "string",
+                      "example": "body"
+                    },
+                    "messages": {
+                      "type": "array",
+                      "items": {
+                        "example": "\\\"email\\\" is required"
+                      }
+                    },
+                    "types": {
+                      "type": "array",
+                      "items": {
+                        "example": "any.required"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "GibberishAccountVerifyPaymentRequiredResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1002
+              },
+              "message": {
+                "type": "string",
+                "example": "You have exhausted your credits, please add additional credits to continue"
+              }
+            }
+          }
+        }
+      },
+      "GibberishAccountVerifyUnauthorizedResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1000
+              },
+              "message": {
+                "type": "string",
+                "example": "Invalid API Token, please generate new token"
+              }
+            }
+          }
+        }
+      },
+      "InstantEmailFinderSuccessResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "success"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "emails": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "email_address": {
+                      "type": "string",
+                      "example": "morris@apple.com"
+                    },
+                    "role": {
+                      "type": "string",
+                      "example": "no"
+                    },
+                    "business": {
+                      "type": "string",
+                      "example": "yes"
+                    }
+                  }
+                }
+              },
+              "first_name": {
+                "type": "string",
+                "example": "steven"
+              },
+              "last_name": {
+                "type": "string",
+                "example": "morris"
+              },
+              "full_name": {
+                "type": "string",
+                "example": "steven morris"
+              },
+              "domain": {
+                "type": "string",
+                "example": "apple.com"
+              },
+              "confidence_score": {
+                "type": "integer",
+                "example": 83
+              },
+              "total": {
+                "type": "integer",
+                "example": 1
+              },
+              "company": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "apple"
+                  }
+                }
+              },
+              "found_on": {
+                "type": "string",
+                "example": "2021-08-21T03:10:02.796Z"
+              }
+            }
+          }
+        }
+      },
+      "InstantEmailFinderFailureResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1088
+              },
+              "message": {
+                "type": "string",
+                "example": "Unsupported characters in name fields"
+              }
+            }
+          }
+        }
+      },
+      "InstantEmailFinderBadRequestResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string",
+                "example": "validation failed"
+              },
+              "reasons": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "field": {
+                      "type": "array",
+                      "items": {
+                        "example": "name"
+                      }
+                    },
+                    "location": {
+                      "type": "string",
+                      "example": "body"
+                    },
+                    "messages": {
+                      "type": "array",
+                      "items": {
+                        "example": "\\\"name\\\" is not allowed to be empty"
+                      }
+                    },
+                    "types": {
+                      "type": "array",
+                      "items": {
+                        "example": "any.empty"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "InstantEmailFinderPaymentRequiredResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1099
+              },
+              "message": {
+                "type": "string",
+                "example": "You do not have sufficient credits for instant email finder"
+              }
+            }
+          }
+        }
+      },
+      "InstantEmailFinderUnauthorizedResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1000
+              },
+              "message": {
+                "type": "string",
+                "example": "Invalid API Token, please generate new token"
+              }
+            }
+          }
+        }
+      },
+      "InstantEmailFinderRateLimitReachedResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string",
+                "example": "You have reached API rate limit, try calling after Fri Jul 27 2021 10:59:19 GMT+0530 (IST) or to increase limit, upgrade plan or reach us@clearout.io"
+              }
+            }
+          }
+        }
+      },
+      "InstantEmailFinderTimeoutOccurredResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string",
+                "example": "Timeout Occurred"
+              },
+              "additional_info": {
+                "type": "object",
+                "properties": {
+                  "resource_name": {
+                    "type": "string",
+                    "example": "email_finder"
+                  },
+                  "resource_value": {
+                    "type": "string",
+                    "example": null
+                  },
+                  "queue_id": {
+                    "type": "string",
+                    "example": "61008c4597947d45700f4bb2"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "InstantEmailFinderStatusSuccessResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "success"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "emails": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "email_address": {
+                      "type": "string",
+                      "example": "morris@apple.com"
+                    },
+                    "role": {
+                      "type": "string",
+                      "example": "no"
+                    },
+                    "business": {
+                      "type": "string",
+                      "example": "yes"
+                    }
+                  }
+                }
+              },
+              "first_name": {
+                "type": "string",
+                "example": "steven"
+              },
+              "last_name": {
+                "type": "string",
+                "example": "morris"
+              },
+              "full_name": {
+                "type": "string",
+                "example": "steven morris"
+              },
+              "domain": {
+                "type": "string",
+                "example": "apple.com"
+              },
+              "confidence_score": {
+                "type": "integer",
+                "example": 83
+              },
+              "total": {
+                "type": "integer",
+                "example": 1
+              },
+              "company": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "apple"
+                  }
+                }
+              },
+              "found_on": {
+                "type": "string",
+                "example": "2021-08-21T03:10:02.796Z"
+              }
+            }
+          }
+        }
+      },
+      "InstantEmailFinderStatusFailureResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1104
+              },
+              "message": {
+                "type": "string",
+                "example": "Invalid queue ID"
+              }
+            }
+          }
+        }
+      },
+      "InstantEmailFinderStatusBadRequestResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string",
+                "example": "validation failed"
+              },
+              "reasons": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "field": {
+                      "type": "array",
+                      "items": {
+                        "example": "qid"
+                      }
+                    },
+                    "location": {
+                      "type": "string",
+                      "example": "query"
+                    },
+                    "messages": {
+                      "type": "array",
+                      "items": {
+                        "example": "\\\"qid\\\" is required"
+                      }
+                    },
+                    "types": {
+                      "type": "array",
+                      "items": {
+                        "example": "any.required"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "InstantEmailFinderStatusUnauthorizedResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1000
+              },
+              "message": {
+                "type": "string",
+                "example": "Invalid API Token, please generate new token"
+              }
+            }
+          }
+        }
+      },
+      "BulkEmailFinderSuccessResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "success"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "list_id": {
+                "type": "string",
+                "example": "610097bf5c6d3469958acd29"
+              }
+            }
+          }
+        }
+      },
+      "BulkEmailFinderFailureResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1083
+              },
+              "message": {
+                "type": "string",
+                "example": "You have reached the maximum number of email finder bulk requests, please try after the existing request completes or contact us@clearout.io"
+              }
+            }
+          }
+        }
+      },
+      "BulkEmailFinderBadRequestResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1100
+              },
+              "message": {
+                "type": "string",
+                "example": "Invalid file type"
+              }
+            }
+          }
+        }
+      },
+      "BulkEmailFinderPaymentRequiredResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1028
+              },
+              "message": {
+                "type": "string",
+                "example": "Your available credits 2799 is not enough to find 10000 email addresses from the list, so please purchase 37201 more credits"
+              },
+              "additional_info": {
+                "type": "object",
+                "properties": {
+                  "required_credits": {
+                    "type": "integer",
+                    "example": 37201
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "BulkEmailFinderUnauthorizedResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1000
+              },
+              "message": {
+                "type": "string",
+                "example": "Invalid API Token, please generate new token"
+              }
+            }
+          }
+        }
+      },
+      "BulkEmailFinderProgressStatusSuccessResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "success"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "progress_status": {
+                "type": "string",
+                "example": "running"
+              },
+              "percentage": {
+                "type": "integer",
+                "example": 18
+              }
+            }
+          }
+        }
+      },
+      "BulkEmailFinderProgressStatusFailureResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1008
+              },
+              "message": {
+                "type": "string",
+                "example": "You are not authorized to access this resource"
+              }
+            }
+          }
+        }
+      },
+      "BulkEmailFinderProgressStatusBadRequestResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string",
+                "example": "validation failed"
+              },
+              "reasons": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "field": {
+                      "type": "array",
+                      "items": {
+                        "example": "list_id"
+                      }
+                    },
+                    "location": {
+                      "type": "string",
+                      "example": "query"
+                    },
+                    "messages": {
+                      "type": "array",
+                      "items": {
+                        "example": "\\\"list_id\\\" is not allowed to be empty"
+                      }
+                    },
+                    "types": {
+                      "type": "array",
+                      "items": {
+                        "example": "any.empty"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "BulkEmailFinderProgressStatusUnauthorizedResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1000
+              },
+              "message": {
+                "type": "string",
+                "example": "Invalid API Token, please generate new token"
+              }
+            }
+          }
+        }
+      },
+      "BulkFinderResultDownloadSuccessResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "success"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string",
+                "example": "https://s3.ap-south-1.amazonaws.com/clearout.others/60f76977473718917ebc6edb/61009e745c6d3469958ace11/results/test3_appended_clearout_finder_results.csv?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJXBOVX5Q2EULDUIA%2F20210728%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20210728T000244Z&X-Amz-Expires=300&X-Amz-Signature=e1e1c6340428d23d9aa37e57229f28025ae5f7510e27e102eb8eae901a0919c8&X-Amz-SignedHeaders=host"
+              }
+            }
+          }
+        }
+      },
+      "BulkFinderResultDownloadFailureResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1029
+              },
+              "message": {
+                "type": "string",
+                "example": "List is not available"
+              }
+            }
+          }
+        }
+      },
+      "BulkFinderResultDownloadBadRequestResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "message": {
+                "type": "string",
+                "example": "validation failed"
+              },
+              "reasons": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "field": {
+                      "type": "array",
+                      "items": {
+                        "example": "list_id"
+                      }
+                    },
+                    "location": {
+                      "type": "string",
+                      "example": "body"
+                    },
+                    "messages": {
+                      "type": "array",
+                      "items": {
+                        "example": "\\\"list_id\\\" is not allowed to be empty"
+                      }
+                    },
+                    "types": {
+                      "type": "array",
+                      "items": {
+                        "example": "any.empty"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "BulkFinderResultDownloadResultFileExpiredResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1007
+              },
+              "message": {
+                "type": "string",
+                "example": "Result file got expired, contact us@clearout.io"
+              }
+            }
+          }
+        }
+      },
+      "BulkFinderResultDownloadUnauthorizedResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1000
+              },
+              "message": {
+                "type": "string",
+                "example": "Invalid API Token, please generate new token"
+              }
+            }
+          }
+        }
+      },
+      "BulkEmailFinderRemovalPaymentRequiredResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1002
+              },
+              "message": {
+                "type": "string",
+                "example": "You have exhausted your credits, please add additional credits to continue"
+              }
+            }
+          }
+        }
+      },
+      "BulkEmailFinderRemovalUnauthorizedResponseType": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "failed"
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "integer",
+                "example": 1000
+              },
+              "message": {
+                "type": "string",
+                "example": "Invalid API Token, please generate new token"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Email Verify",
+      "description": "Everything about Email Verification",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "https://docs.clearout.io/api.html"
+      }
+    },
+    {
+      "name": "Email Finder",
+      "description": "Everything about Email Finder",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "https://docs.clearout.io/email-finder-api.html"
+      }
+    }
+  ],
+  "paths": {
+    "/email_verify/getcredits": {
+      "get": {
+        "tags": [
+          "Email Verify"
+        ],
+        "summary": "Get Available Credits",
+        "description": "Instantly get to know the available credits",
+        "operationId": "getCredits",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "status": {
+                        "type": "string",
+                        "description": "Response Object status",
+                        "example": "success"
+                      },
+                      "data": {
+                        "$ref": "#/components/schemas/GetCreditsSuccessResponseType"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "status": {
+                        "type": "string",
+                        "description": "Response Object Status for 401",
+                        "example": "failed"
+                      },
+                      "error": {
+                        "$ref": "#/components/schemas/GetCreditsUnauthorizedResponseType"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/email_verify/instant": {
+      "post": {
+        "tags": [
+          "Email Verify"
+        ],
+        "summary": "Instant Verify",
+        "description": "Instant verification API can be seamlessly integrated into your signup or onboarding process with just a single request. Use this API to verify Email Address without going through queue",
+        "operationId": "verifyEmail",
+        "requestBody": {
+          "required": true,
+          "description": "Email to Verify Instantly",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyEmail"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/InstantVerifySuccessResponseType"
+                    },
+                    {
+                      "$ref": "#/components/schemas/InstantVerifyFailureResponseType"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstantVerifyBadRequestResponseType"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstantVerifyUnauthorizedResponseType"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstantVerifyPaymentRequiredResponseType"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstantVerifyRateLimitReachedResponseType"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable"
+          },
+          "524": {
+            "description": "A Timeout Occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstantVerifyTimeoutOccuredResponseType"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/email_verify/bulk": {
+      "post": {
+        "tags": [
+          "Email Verify"
+        ],
+        "summary": "Bulk Verify",
+        "description": "Use bulk verify to upload your contact lists, request will be put on queue and at any point you can check the status of your request using Bulk Verify Progress Status API",
+        "operationId": "verifyBulkEmails",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "file"
+                ],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "base64"
+                  },
+                  "optimize": {
+                    "type": "string",
+                    "example": "highest_accuracy"
+                  },
+                  "ignore_duplicate_file": {
+                    "type": "string",
+                    "example": "false"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/BulkVerifySuccessResponseType"
+                    },
+                    {
+                      "$ref": "#/components/schemas/BulkVerifyFailureResponseType"
+                    },
+                    {
+                      "$ref": "#/components/schemas/BulkVerifyDailyLimitReachedResponseType"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BulkVerifyBadRequestResponseType"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BulkVerifyUnauthorizedResponseType"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BulkVerifyPaymentRequiredResponseType"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/email_verify/bulk/progress_status": {
+      "get": {
+        "tags": [
+          "Email Verify"
+        ],
+        "summary": "Bulk Verify Progress Status",
+        "description": "To know the overall progress status of bulk verify request",
+        "operationId": "verifyBulkEmailsProgressStatus",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "list_id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/BulkVerifyProgressStatusSuccessResponseType"
+                    },
+                    {
+                      "$ref": "#/components/schemas/BulkVerifyProgressStatusFailureResponseType"
+                    },
+                    {
+                      "$ref": "#/components/schemas/BulkVerifyProgressStatusDailyLimitReachedResponseType"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BulkVerifyProgressStatusBadRequestResponseType"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BulkVerifyProgressStatusUnauthorizedResponseType"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/download/result": {
+      "post": {
+        "tags": [
+          "Email Verify"
+        ],
+        "summary": "Bulk Verify Result Download",
+        "description": "Bulk verify result download",
+        "operationId": "downloadResultBulkEmails",
+        "requestBody": {
+          "required": true,
+          "description": "List ID to Bulk verify result download",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListIdType"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/BulkVerifyResultDownloadSuccessResponseType"
+                    },
+                    {
+                      "$ref": "#/components/schemas/BulkVerifyResultDownloadFailureResponseType"
+                    },
+                    {
+                      "$ref": "#/components/schemas/BulkVerifyResultDownloadResultFileExpiredResponseType"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BulkVerifyResultDownloadBadRequestResponseType"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BulkVerifyResultDownloadUnauthorizedResponseType"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BulkVerifyResultDownloadPaymentRequiredResponseType"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/email_verify/list/remove": {
+      "post": {
+        "tags": [
+          "Email Verify"
+        ],
+        "summary": "Bulk Verify Result Removal",
+        "description": "Bulk verify result removal",
+        "operationId": "removeBulkEmailsResult",
+        "requestBody": {
+          "required": true,
+          "description": "List ID to bulk verify removal",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RemoveParamType"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/BulkSuccessResponseType"
+                    },
+                    {
+                      "$ref": "#/components/schemas/BulkFailureListNotAvailableResponseType"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BulkBadRequestResponseType"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BulkVerifyRemovalUnauthorizedResponseType"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BulkVerifyRemovalPaymentRequiredResponseType"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/email_verify/list/cancel": {
+      "post": {
+        "tags": [
+          "Email Verify"
+        ],
+        "summary": "Bulk Verify Cancel",
+        "description": "Cancel running bulk verify contact list",
+        "operationId": "cancelBulkVerifyList",
+        "requestBody": {
+          "required": true,
+          "description": "List ID to bulk verify cancel",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListIdType"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/BulkSuccessResponseType"
+                    },
+                    {
+                      "$ref": "#/components/schemas/BulkFailureListNotAvailableResponseType"
+                    },
+                    {
+                      "$ref": "#/components/schemas/BulkFailureListNotRunningResponseType"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BulkBadRequestResponseType"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/email/verify/catchall": {
+      "post": {
+        "tags": [
+          "Email Verify"
+        ],
+        "summary": "Catch-All Verify",
+        "description": "Verify email address for Catch-All, since certain servers accept all the emails for that domain and never bounces it back to the sender, those email addresses are flagged as catch-all emails",
+        "operationId": "verifyCatchAllEmails",
+        "requestBody": {
+          "required": true,
+          "description": "Catch-All Email to Verify",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyEmail"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/CatchAllVerifySuccessResponseType"
+                    },
+                    {
+                      "$ref": "#/components/schemas/CatchAllVerifyFailureResponseType"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatchAllVerifyBadRequestResponseType"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatchAllVerifyUnauthorizedResponseType"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatchAllVerifyPaymentRequiredResponseType"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable"
+          },
+          "524": {
+            "description": "A Timeout Occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CatchAllVerifyTimeoutOccurredResponseType"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/email/verify/disposable": {
+      "post": {
+        "tags": [
+          "Email Verify"
+        ],
+        "summary": "Disposable Verify",
+        "description": "Verify email address for Disposable, generally these email addresses live for short period of time and used for account activation or confirmation emails for sites like forums, e-shopping etc. so it is highly recommended not to send email to disposable addresses",
+        "operationId": "verifyDisposableEmails",
+        "requestBody": {
+          "required": true,
+          "description": "Dsiposable Email to Verify",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyEmail"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/DisposableVerifySuccessResponseType"
+                    },
+                    {
+                      "$ref": "#/components/schemas/DisposableVerifyFailureResponseType"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DisposableVerifyBadRequestResponseType"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DisposableVerifyUnauthorizedResponseType"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DisposableVerifyPaymentRequiredResponseType"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/email/verify/business": {
+      "post": {
+        "tags": [
+          "Email Verify"
+        ],
+        "summary": "Business Account Verify",
+        "description": "Verify email address belongs to business (a.k.a work) account",
+        "operationId": "verifyBusinessEmails",
+        "requestBody": {
+          "required": true,
+          "description": "Business Account Email to Verify",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyEmail"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/BusinessAccountVerifySuccessResponseType"
+                    },
+                    {
+                      "$ref": "#/components/schemas/BusinessAccountVerifyFailureResponseType"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BusinessAccountVerifyBadRequestResponseType"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BusinessAccountVerifyUnauthorizedResponseType"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BusinessAccountVerifyPaymentRequiredResponseType"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/email/verify/free": {
+      "post": {
+        "tags": [
+          "Email Verify"
+        ],
+        "summary": "Free Account Verify",
+        "description": "Verify email address for free mail service such as Gmail, Yahoo!, AOL, Mail.ru etc. In many cases, it is perfectly acceptable to send email to a user of a free email service. However, in certain contexts, businesses can receive better open/response rates when only sending to non-free / business email addresses",
+        "operationId": "verifyFreeEmail",
+        "requestBody": {
+          "required": true,
+          "description": "Free Account Email to Verify",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyEmail"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/FreeAccountVerifySuccessResponseType"
+                    },
+                    {
+                      "$ref": "#/components/schemas/FreeAccountVerifyFailureResponseType"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FreeAccountVerifyBadRequestResponseType"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FreeAccountVerifyUnauthorizedResponseType"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FreeAccountVerifyPaymentRequiredResponseType"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/email/verify/role": {
+      "post": {
+        "tags": [
+          "Email Verify"
+        ],
+        "summary": "Role Account Verify",
+        "description": "Verify email address for role account, typically these addresses are associated with a role or group (postmaster, support, sales, etc.) account instead of a person. In some instances, mailing to a role address can lead to a decreased open rate and is generally advised against while sending an email",
+        "operationId": "verifyRoleEmail",
+        "requestBody": {
+          "required": true,
+          "description": "Role Account Email to Verify",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyEmail"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/RoleAccountVerifySuccessResponseType"
+                    },
+                    {
+                      "$ref": "#/components/schemas/RoleAccountVerifyFailureResponseType"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoleAccountVerifyBadRequestResponseType"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoleAccountVerifyUnauthorizedResponseType"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoleAccountVerifyPaymentRequiredResponseType"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/email/verify/gibberish": {
+      "post": {
+        "tags": [
+          "Email Verify"
+        ],
+        "summary": "Gibberish Account Verify",
+        "description": "Verify email address for gibberish account, typically these addresses are not used by the genuine users, so its highly adviceable not to accept such email addresses",
+        "operationId": "verifyGibberishEmail",
+        "requestBody": {
+          "required": true,
+          "description": "Gibberish Account Email to Verify",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyEmail"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/GibberishAccountVerifySuccessResponseType"
+                    },
+                    {
+                      "$ref": "#/components/schemas/GibberishAccountVerifyFailureResponseType"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GibberishAccountVerifyBadRequestResponseType"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GibberishAccountVerifyUnauthorizedResponseType"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GibberishAccountVerifyPaymentRequiredResponseType"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/email_finder/instant": {
+      "post": {
+        "tags": [
+          "Email Finder"
+        ],
+        "summary": "Instant Email Finder",
+        "description": "Instantly discover email address of any person giving their name and domain or company name",
+        "operationId": "findEmail",
+        "requestBody": {
+          "required": true,
+          "description": "Email to Find Instantly",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "domain"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Steven Morris"
+                  },
+                  "domain": {
+                    "type": "string",
+                    "example": "apple.com"
+                  },
+                  "timeout": {
+                    "type": "integer",
+                    "example": 30000
+                  },
+                  "queue": {
+                    "type": "boolean",
+                    "example": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/InstantEmailFinderSuccessResponseType"
+                    },
+                    {
+                      "$ref": "#/components/schemas/InstantEmailFinderFailureResponseType"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstantEmailFinderBadRequestResponseType"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstantEmailFinderUnauthorizedResponseType"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstantEmailFinderPaymentRequiredResponseType"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstantEmailFinderRateLimitReachedResponseType"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable"
+          },
+          "524": {
+            "description": "A Timeout Occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstantEmailFinderTimeoutOccurredResponseType"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/email_finder/instant/queue_status": {
+      "get": {
+        "tags": [
+          "Email Finder"
+        ],
+        "summary": "Instant Email Finder Status",
+        "description": "To know the email finder request status in queue",
+        "operationId": "findEmailStatus",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "qid",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/InstantEmailFinderStatusSuccessResponseType"
+                    },
+                    {
+                      "$ref": "#/components/schemas/InstantEmailFinderStatusFailureResponseType"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstantEmailFinderStatusBadRequestResponseType"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstantEmailFinderStatusUnauthorizedResponseType"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/email_finder/bulk": {
+      "post": {
+        "tags": [
+          "Email Finder"
+        ],
+        "summary": "Bulk Email Finder",
+        "description": "Use bulk finder API to discover the email address of the person in contact list of any size. Email discovery process will occur in background and once complete it will be notified through email. Use Bulk Email Finder Progress Status API to know the overall completion status of the list in percentage",
+        "operationId": "findBulkEmails",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "file"
+                ],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "base64"
+                  },
+                  "ignore_duplicate_file": {
+                    "type": "string",
+                    "example": "false"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/BulkEmailFinderSuccessResponseType"
+                    },
+                    {
+                      "$ref": "#/components/schemas/BulkEmailFinderFailureResponseType"
+                    },
+                    {
+                      "$ref": "#/components/schemas/BulkEmailFinderBadRequestResponseType"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BulkEmailFinderUnauthorizedResponseType"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BulkEmailFinderPaymentRequiredResponseType"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/email_finder/bulk/progress_status": {
+      "get": {
+        "tags": [
+          "Email Finder"
+        ],
+        "summary": "Bulk Email Finder Progress Status",
+        "description": "To know the overall progress status of the bulk finder request",
+        "operationId": "findBulkEmailsProgressStatus",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "list_id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/BulkEmailFinderProgressStatusSuccessResponseType"
+                    },
+                    {
+                      "$ref": "#/components/schemas/BulkEmailFinderProgressStatusFailureResponseType"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BulkEmailFinderProgressStatusBadRequestResponseType"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BulkEmailFinderProgressStatusUnauthorizedResponseType"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/email_finder/download/result": {
+      "post": {
+        "tags": [
+          "Email Finder"
+        ],
+        "summary": "Bulk Finder Result Download",
+        "description": "Bulk email finder result file download",
+        "operationId": "downloadBulkEmailsResult",
+        "requestBody": {
+          "required": true,
+          "description": "List ID to bulk email finder result file download",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListIdType"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/BulkFinderResultDownloadSuccessResponseType"
+                    },
+                    {
+                      "$ref": "#/components/schemas/BulkFinderResultDownloadFailureResponseType"
+                    },
+                    {
+                      "$ref": "#/components/schemas/BulkFinderResultDownloadResultFileExpiredResponseType"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BulkFinderResultDownloadBadRequestResponseType"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BulkFinderResultDownloadUnauthorizedResponseType"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/email_finder/list/remove": {
+      "post": {
+        "tags": [
+          "Email Finder"
+        ],
+        "summary": "Bulk Email Finder Removal",
+        "description": "Remove your bulk finder contact list",
+        "operationId": "removeBulkEmailsList",
+        "requestBody": {
+          "required": true,
+          "description": "List ID to bulk email finder removal",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RemoveParamType"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/BulkSuccessResponseType"
+                    },
+                    {
+                      "$ref": "#/components/schemas/BulkFailureListNotAvailableResponseType"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BulkBadRequestResponseType"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BulkEmailFinderRemovalUnauthorizedResponseType"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BulkEmailFinderRemovalPaymentRequiredResponseType"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/email_finder/list/cancel": {
+      "post": {
+        "tags": [
+          "Email Finder"
+        ],
+        "summary": "Bulk Finder Cancel",
+        "description": "Cancel running bulk finder list",
+        "operationId": "cancelBulkFinderList",
+        "requestBody": {
+          "required": true,
+          "description": "List ID to cancel bulk finding",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListIdType"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/BulkSuccessResponseType"
+                    },
+                    {
+                      "$ref": "#/components/schemas/BulkFailureListNotAvailableResponseType"
+                    },
+                    {
+                      "$ref": "#/components/schemas/BulkFailureListNotRunningResponseType"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BulkBadRequestResponseType"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    }
+  }
+}

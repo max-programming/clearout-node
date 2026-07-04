@@ -9,7 +9,9 @@ class OpenApiClient {
   constructor({ api_token }) {
     this._apiToken = api_token
     this._client = new OpenAPIClientAxios({
-      definition: __dirname + '/Clearout-OpenAPI-Spec-V3.yaml',
+      // static require of the pre-parsed spec (generated from the YAML via
+      // `npm run spec:build`) so bundlers include it — see issue #1
+      definition: require('./Clearout-OpenAPI-Spec-V3.json'),
       axiosConfigDefaults: {
         headers: {
           'Authorization': api_token,
